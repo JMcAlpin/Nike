@@ -7,11 +7,16 @@
 
 import UIKit
 
+protocol ListCellDelegate {
+    func gotImage(image: UIImage, index: Int)
+}
+
 class ListCell: UITableViewCell {
 
-    var artView: UIImageView = UIImageView()
-    var albumLabel: UILabel = UILabel()
-    var artistLabel: UILabel = UILabel()
+    let artView: UIImageView = UIImageView()
+    let albumLabel: UILabel = UILabel()
+    let artistLabel: UILabel = UILabel()
+    var delegate: ListCellDelegate?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -23,6 +28,7 @@ class ListCell: UITableViewCell {
     }
     
     func setupViews() {
+        selectionStyle = .none
         addSubview(artView)
         addSubview(albumLabel)
         addSubview(artistLabel)
@@ -57,19 +63,24 @@ class ListCell: UITableViewCell {
     }
     
     func downloadImageFromURL(urlString: String) {
-        if let url = URL(string: urlString) {
-            URLSession.shared.dataTask(with: url) { (data, response, error) in
-                if let data = data {
-                    DispatchQueue.main.async {
-                        if let image = UIImage(data: data) {
-                            self.artView.image = image
-                        } else {
-                            self.artView.image = UIImage(named: "questionMark")
-                        }
-                    }
-                }
-            }.resume()
+        guard let url = URL(string: urlString) else {
+            self.showPlaceholderArt()
+            return
         }
+        URLSession.shared.dataTask(with: url) { (data, response, error) in
+            DispatchQueue.main.async {
+                guard let data = data, let image = UIImage(data: data) else {
+                    self.showPlaceholderArt()
+                    return
+                }
+                self.artView.image = image
+                self.delegate?.gotImage(image: image, index: self.tag)
+            }
+        }.resume()
+    }
+    
+    func showPlaceholderArt() {
+        self.artView.image = UIImage(named: "questionMark")
     }
     
 }

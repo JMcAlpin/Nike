@@ -10,9 +10,11 @@ import UIKit
 class ListViewController: UIViewController {
     
     let urlString = "https://rss.itunes.apple.com/api/v1/us/apple-music/top-albums/all/100/explicit.json"
-    var tableView: UITableView = UITableView()
-    var activitySpinner: UIActivityIndicatorView = UIActivityIndicatorView()
-    var dataSource: DataModel?
+    let tableView: UITableView = UITableView()
+    let activitySpinner: UIActivityIndicatorView = UIActivityIndicatorView()
+    
+    var dataSource: [Album] = []
+    var imageCache = [UIImage?](repeating: nil, count: 100)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,68 +50,85 @@ class ListViewController: UIViewController {
     }
     
     func downloadJSONFromURL() {
-        if let url = URL(string: urlString) {
-            URLSession.shared.dataTask(with: url) { (data, response, error) in
-                if let data = data {
-                    let decoder = JSONDecoder()
-                    do {
-                        let parsed = try decoder.decode(DataModel.self, from: data)
-                        self.dataSource = parsed
-                    } catch {
-                        let alert = UIAlertController(title: "Download Error!", message: "Could not download list, please close the app and try again later.", preferredStyle: .alert)
-                        alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
-                        self.present(alert, animated: true)
-                    }
-                    DispatchQueue.main.async {
-                        self.activitySpinner.stopAnimating()
-                        self.tableView.reloadData()
-                    }
-                }
-            }.resume()
+        func downloadFailure() {
+            self.showErrorAlert(title: "Download Error!", message: "Could not download list, please close the app and try again later.")
         }
+        guard let url = URL(string: urlString) else {
+            downloadFailure()
+            return
+        }
+        URLSession.shared.dataTask(with: url) { (data, response, error) in
+            guard let data = data else {
+                downloadFailure()
+                return
+            }
+            let decoder = JSONDecoder()
+            do {
+                let parsed = try decoder.decode(DataModel.self, from: data)
+                self.dataSource = parsed.feed.results
+            } catch {
+                downloadFailure()
+            }
+            DispatchQueue.main.async {
+                self.activitySpinner.stopAnimating()
+                self.tableView.reloadData()
+            }
+        }.resume()
     }
     
 }
 
 extension ListViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let count = self.dataSource?.feed.results.count {
-            return count
-        } else {
-            return 0
-        }
+        return self.dataSource.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ListCell") as! ListCell
-        let albumName = dataSource?.feed.results[indexPath.row].name
-        let artist = dataSource?.feed.results[indexPath.row].artistName
-        if let albumArtURL = dataSource?.feed.results[indexPath.row].artworkUrl100 {
-            cell.downloadImageFromURL(urlString: albumArtURL)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "ListCell") as? ListCell else {
+            fatalError("Unable to dequeue \"ListCell\" for tableView")
+        }
+        let album = self.dataSource[indexPath.row]
+        let albumName = album.name
+        let artist = album.artistName
+        if let image = imageCache[indexPath.row] {
+            cell.artView.image = image
+        } else {
+            if let albumArtURL = album.artworkUrl100 {
+                cell.downloadImageFromURL(urlString: albumArtURL)
+            } else {
+                cell.showPlaceholderArt()
+            }
         }
         cell.albumLabel.text = albumName
         cell.artistLabel.text = artist
-        cell.selectionStyle = .none
+        cell.delegate = self
+        cell.tag = indexPath.row
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let detailsVC = DetailsViewController()
-        let artistName = self.dataSource?.feed.results[indexPath.row].artistName
-        let albumName = self.dataSource?.feed.results[indexPath.row].name
-        let copyRight = self.dataSource?.feed.results[indexPath.row].copyright
-        let genre = self.dataSource?.feed.results[indexPath.row].genres.first?.name
-        let releaseDate = self.dataSource?.feed.results[indexPath.row].releaseDate
-        let iTunesLink = self.dataSource?.feed.results[indexPath.row].url
-        detailsVC.artistLabel.text = artistName
-        detailsVC.titleLabel.text = albumName
-        detailsVC.copyRightLabel.text = copyRight
-        detailsVC.releaseDateLabel.text = "release date: " + (releaseDate ?? "Unknown")
-        detailsVC.genreLabel.text = "Genre: " + (genre ?? "Unknown")
-        detailsVC.iTunesURL = iTunesLink
-        let cell = tableView.cellForRow(at: indexPath) as! ListCell
-        detailsVC.artView.image = cell.artView.image
+        let cell = tableView.cellForRow(at: indexPath) as? ListCell
+        let album = self.dataSource[indexPath.row]
+        detailsVC.album = album
+        detailsVC.albumArt = cell?.artView.image
         self.navigationController?.pushViewController(detailsVC, animated: true)
     }
     
+}
+
+extension ListViewController {
+    func showErrorAlert(title: String, message: String) {
+        DispatchQueue.main.async {
+            let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+            self.present(alert, animated: true)
+        }
+    }
+}
+
+extension ListViewController: ListCellDelegate {
+    func gotImage(image: UIImage, index: Int) {
+        imageCache[index] = image
+    }
 }

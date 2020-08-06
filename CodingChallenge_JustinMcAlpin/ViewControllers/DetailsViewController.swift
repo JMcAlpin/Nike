@@ -9,18 +9,21 @@ import UIKit
 
 class DetailsViewController: UIViewController {
     
-    var artView: UIImageView = UIImageView()
-    var storeButton: UIButton = UIButton()
-    var titleLabel: UILabel = UILabel()
-    var artistLabel: UILabel = UILabel()
-    var genreLabel: UILabel = UILabel()
-    var copyRightLabel: UILabel = UILabel()
-    var releaseDateLabel: UILabel = UILabel()
-    var iTunesURL: String?
+    let artView: UIImageView = UIImageView()
+    let storeButton: UIButton = UIButton()
+    let titleLabel: UILabel = UILabel()
+    let artistLabel: UILabel = UILabel()
+    let genreLabel: UILabel = UILabel()
+    let copyRightLabel: UILabel = UILabel()
+    let releaseDateLabel: UILabel = UILabel()
+    
+    var album: Album?
+    var albumArt: UIImage?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
+        displayAlbumDetails()
     }
     
     func setupViews() {
@@ -76,11 +79,10 @@ class DetailsViewController: UIViewController {
         artView.clipsToBounds = true
         artView.translatesAutoresizingMaskIntoConstraints = false
         let artViewConstraints = [
-            artView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            artView.heightAnchor.constraint(equalToConstant: 300),
-            artView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 24),
-            artView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -24),
+            artView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 56),
+            artView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -56),
             artView.topAnchor.constraint(equalTo: artistLabel.bottomAnchor, constant: 16),
+            artView.heightAnchor.constraint(equalToConstant: ((self.view.window?.frame.width ?? 300) - 56))
         ]
         artView.backgroundColor = UIColor.black
         NSLayoutConstraint.activate(artViewConstraints)
@@ -95,24 +97,34 @@ class DetailsViewController: UIViewController {
         self.titleLabel.font = UIFont.monospacedSystemFont(ofSize: 36, weight: .bold)
         self.titleLabel.textAlignment = .center
         self.titleLabel.adjustsFontSizeToFitWidth = true
+        self.titleLabel.numberOfLines = 2
         self.artistLabel.textAlignment = .center
         self.artistLabel.adjustsFontSizeToFitWidth = true
+        self.artistLabel.numberOfLines = 1
         self.copyRightLabel.font = UIFont.systemFont(ofSize: 10)
         self.copyRightLabel.textAlignment = .center
-        self.copyRightLabel.adjustsFontSizeToFitWidth = true
-        self.copyRightLabel.numberOfLines = 1
-        self.titleLabel.numberOfLines = 2
-        self.copyRightLabel.numberOfLines = 2
-        self.artistLabel.numberOfLines = 1
+        self.copyRightLabel.numberOfLines = 3
+        self.releaseDateLabel.textAlignment = .center
+        self.genreLabel.textAlignment = .center
         storeButton.layer.cornerRadius = 10
         storeButton.translatesAutoresizingMaskIntoConstraints = false
         storeButton.backgroundColor = UIColor.systemGreen
             storeButton.setTitle("iTunes", for: .normal)
     }
     
+    func displayAlbumDetails() {
+        artView.image = albumArt
+        
+        guard let album = album else { return }
+        artistLabel.text = album.artistName
+        titleLabel.text = album.name
+        copyRightLabel.text = album.copyright
+        releaseDateLabel.text = "Release date: " + (album.releaseDate ?? "Unknown")
+        genreLabel.text = "Genre: " + (album.genresString ?? "Unknown")
+    }
+    
     @objc func goToItunesPage(sender: UIButton) {
-        if let iTunesURL = iTunesURL {
-            guard let url = URL(string: iTunesURL) else { return }
+        if let iTunesURL = album?.url, let url = URL(string: iTunesURL), UIApplication.shared.canOpenURL(url) {
             UIApplication.shared.open(url)
         }
     }

@@ -12,10 +12,10 @@ struct DataModel: Codable {
 }
 
 struct Feed: Codable {
-    let results: [Result]
+    let results: [Album]
 }
 
-struct Result: Codable {
+struct Album: Codable {
     let artistName: String?
     let name: String?
     let copyright: String?
@@ -25,7 +25,17 @@ struct Result: Codable {
     let url: String?
 }
 
+extension Album {
+    var genresString: String? {
+        guard genres.isEmpty == false else {
+            return nil
+        }
+        return genres.first?.name
+    }
+}
+
 struct Genre: Codable {
     let name: String?
     let genreId: String?
 }
+
