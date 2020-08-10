@@ -16,7 +16,21 @@
 		846B3FE924DA6481002F42E2 /* ListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846B3FE824DA6481002F42E2 /* ListCell.swift */; };
 		846B3FED24DA7576002F42E2 /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846B3FEC24DA7576002F42E2 /* DetailsViewController.swift */; };
 		846B3FF124DB2859002F42E2 /* Feed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846B3FF024DB2859002F42E2 /* Feed.swift */; };
+		84C5DFAE24DC95B600F2A316 /* CodingChallenge_JustinMcAlpinTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C5DFAD24DC95B600F2A316 /* CodingChallenge_JustinMcAlpinTests.swift */; };
+		84C5DFB924E16F8100F2A316 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C5DFB824E16F8100F2A316 /* NetworkService.swift */; };
+		84C5DFBA24E16F8F00F2A316 /* MockNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C5DFB624E16F5700F2A316 /* MockNetworkService.swift */; };
+		84C5DFBC24E16FED00F2A316 /* top_albums.json in Resources */ = {isa = PBXBuildFile; fileRef = 84C5DFBB24E16FED00F2A316 /* top_albums.json */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		84C5DFB024DC95B600F2A316 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 846B3FC724D901AF002F42E2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 846B3FCE24D901AF002F42E2;
+			remoteInfo = CodingChallenge_JustinMcAlpin;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		846B3FCF24D901AF002F42E2 /* CodingChallenge_JustinMcAlpin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CodingChallenge_JustinMcAlpin.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -30,10 +44,23 @@
 		846B3FE824DA6481002F42E2 /* ListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCell.swift; sourceTree = "<group>"; };
 		846B3FEC24DA7576002F42E2 /* DetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
 		846B3FF024DB2859002F42E2 /* Feed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Feed.swift; sourceTree = "<group>"; };
+		84C5DFAB24DC95B600F2A316 /* CodingChallenge_JustinMcAlpinTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CodingChallenge_JustinMcAlpinTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		84C5DFAD24DC95B600F2A316 /* CodingChallenge_JustinMcAlpinTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodingChallenge_JustinMcAlpinTests.swift; sourceTree = "<group>"; };
+		84C5DFAF24DC95B600F2A316 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		84C5DFB624E16F5700F2A316 /* MockNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNetworkService.swift; sourceTree = "<group>"; };
+		84C5DFB824E16F8100F2A316 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
+		84C5DFBB24E16FED00F2A316 /* top_albums.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = top_albums.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		846B3FCC24D901AF002F42E2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		84C5DFA824DC95B600F2A316 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -47,6 +74,7 @@
 			isa = PBXGroup;
 			children = (
 				846B3FD124D901AF002F42E2 /* CodingChallenge_JustinMcAlpin */,
+				84C5DFAC24DC95B600F2A316 /* CodingChallenge_JustinMcAlpinTests */,
 				846B3FD024D901AF002F42E2 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -55,6 +83,7 @@
 			isa = PBXGroup;
 			children = (
 				846B3FCF24D901AF002F42E2 /* CodingChallenge_JustinMcAlpin.app */,
+				84C5DFAB24DC95B600F2A316 /* CodingChallenge_JustinMcAlpinTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -62,6 +91,7 @@
 		846B3FD124D901AF002F42E2 /* CodingChallenge_JustinMcAlpin */ = {
 			isa = PBXGroup;
 			children = (
+				84C5DFB524E16F4400F2A316 /* Service */,
 				846B3FEF24DB2813002F42E2 /* Model */,
 				846B3FEE24DB280B002F42E2 /* ViewControllers */,
 				846B3FF224DB2C55002F42E2 /* Cell */,
@@ -108,6 +138,25 @@
 			path = Cell;
 			sourceTree = "<group>";
 		};
+		84C5DFAC24DC95B600F2A316 /* CodingChallenge_JustinMcAlpinTests */ = {
+			isa = PBXGroup;
+			children = (
+				84C5DFAD24DC95B600F2A316 /* CodingChallenge_JustinMcAlpinTests.swift */,
+				84C5DFB624E16F5700F2A316 /* MockNetworkService.swift */,
+				84C5DFBB24E16FED00F2A316 /* top_albums.json */,
+				84C5DFAF24DC95B600F2A316 /* Info.plist */,
+			);
+			path = CodingChallenge_JustinMcAlpinTests;
+			sourceTree = "<group>";
+		};
+		84C5DFB524E16F4400F2A316 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				84C5DFB824E16F8100F2A316 /* NetworkService.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -128,17 +177,39 @@
 			productReference = 846B3FCF24D901AF002F42E2 /* CodingChallenge_JustinMcAlpin.app */;
 			productType = "com.apple.product-type.application";
 		};
+		84C5DFAA24DC95B600F2A316 /* CodingChallenge_JustinMcAlpinTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 84C5DFB424DC95B600F2A316 /* Build configuration list for PBXNativeTarget "CodingChallenge_JustinMcAlpinTests" */;
+			buildPhases = (
+				84C5DFA724DC95B600F2A316 /* Sources */,
+				84C5DFA824DC95B600F2A316 /* Frameworks */,
+				84C5DFA924DC95B600F2A316 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				84C5DFB124DC95B600F2A316 /* PBXTargetDependency */,
+			);
+			name = CodingChallenge_JustinMcAlpinTests;
+			productName = CodingChallenge_JustinMcAlpinTests;
+			productReference = 84C5DFAB24DC95B600F2A316 /* CodingChallenge_JustinMcAlpinTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		846B3FC724D901AF002F42E2 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1150;
+				LastSwiftUpdateCheck = 1160;
 				LastUpgradeCheck = 1150;
 				TargetAttributes = {
 					846B3FCE24D901AF002F42E2 = {
 						CreatedOnToolsVersion = 11.5;
+					};
+					84C5DFAA24DC95B600F2A316 = {
+						CreatedOnToolsVersion = 11.6;
+						TestTargetID = 846B3FCE24D901AF002F42E2;
 					};
 				};
 			};
@@ -156,6 +227,7 @@
 			projectRoot = "";
 			targets = (
 				846B3FCE24D901AF002F42E2 /* CodingChallenge_JustinMcAlpin */,
+				84C5DFAA24DC95B600F2A316 /* CodingChallenge_JustinMcAlpinTests */,
 			);
 		};
 /* End PBXProject section */
@@ -171,6 +243,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		84C5DFA924DC95B600F2A316 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				84C5DFBC24E16FED00F2A316 /* top_albums.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -179,6 +259,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				846B3FD324D901AF002F42E2 /* AppDelegate.swift in Sources */,
+				84C5DFB924E16F8100F2A316 /* NetworkService.swift in Sources */,
 				846B3FF124DB2859002F42E2 /* Feed.swift in Sources */,
 				846B3FE924DA6481002F42E2 /* ListCell.swift in Sources */,
 				846B3FD524D901AF002F42E2 /* SceneDelegate.swift in Sources */,
@@ -187,7 +268,24 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		84C5DFA724DC95B600F2A316 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				84C5DFBA24E16F8F00F2A316 /* MockNetworkService.swift in Sources */,
+				84C5DFAE24DC95B600F2A316 /* CodingChallenge_JustinMcAlpinTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		84C5DFB124DC95B600F2A316 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 846B3FCE24D901AF002F42E2 /* CodingChallenge_JustinMcAlpin */;
+			targetProxy = 84C5DFB024DC95B600F2A316 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		846B3FDD24D901B0002F42E2 /* LaunchScreen.storyboard */ = {
@@ -353,6 +451,46 @@
 			};
 			name = Release;
 		};
+		84C5DFB224DC95B600F2A316 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = CodingChallenge_JustinMcAlpinTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "Nike.CodingChallenge-JustinMcAlpinTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CodingChallenge_JustinMcAlpin.app/CodingChallenge_JustinMcAlpin";
+			};
+			name = Debug;
+		};
+		84C5DFB324DC95B600F2A316 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = CodingChallenge_JustinMcAlpinTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "Nike.CodingChallenge-JustinMcAlpinTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CodingChallenge_JustinMcAlpin.app/CodingChallenge_JustinMcAlpin";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -370,6 +508,15 @@
 			buildConfigurations = (
 				846B3FE424D901B0002F42E2 /* Debug */,
 				846B3FE524D901B0002F42E2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		84C5DFB424DC95B600F2A316 /* Build configuration list for PBXNativeTarget "CodingChallenge_JustinMcAlpinTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				84C5DFB224DC95B600F2A316 /* Debug */,
+				84C5DFB324DC95B600F2A316 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -15,6 +15,16 @@ class ListViewController: UIViewController {
     
     var dataSource: [Album] = []
     var imageCache = [UIImage?](repeating: nil, count: 100)
+    let service: NetworkServiceProtocol
+    
+    init(service: NetworkServiceProtocol = NetworkService()) {
+        self.service = service
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,7 +67,7 @@ class ListViewController: UIViewController {
             downloadFailure()
             return
         }
-        URLSession.shared.dataTask(with: url) { (data, response, error) in
+        service.downloadJSON(from: url) { data in
             guard let data = data else {
                 downloadFailure()
                 return
@@ -73,7 +83,7 @@ class ListViewController: UIViewController {
                 self.activitySpinner.stopAnimating()
                 self.tableView.reloadData()
             }
-        }.resume()
+        }
     }
     
 }
