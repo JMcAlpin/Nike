@@ -1,3 +1,10 @@
+//
+//  CodingChallenge_JustinMcAlpinTests.swift
+//  CodingChallenge_JustinMcAlpin
+//
+//  Created by Admin on 8/5/20.
+//
+
 import XCTest
 @testable import CodingChallenge_JustinMcAlpin
 
@@ -55,8 +62,8 @@ class CodingChallenge_JustinMcAlpinTests: XCTestCase {
         
         sleep(3)
         
-        XCTAssertFalse(listVC.dataSource.isEmpty)
-        XCTAssertEqual(listVC.dataSource.count, 100)
+        XCTAssertFalse(listVC.viewModel.viewModels.isEmpty)
+        XCTAssertEqual(listVC.viewModel.viewModels.count, 100)
     }
     
     
@@ -67,15 +74,16 @@ class CodingChallenge_JustinMcAlpinTests: XCTestCase {
         
         sleep(3)
         
-        XCTAssert(listVC.dataSource.isEmpty)
+        XCTAssert(listVC.viewModel.viewModels.isEmpty)
     }
     
     func test_DetailsViewController_ShowsCorrect_Information() {
         let detailsVC = DetailsViewController()
         let genres = [Genre(name: "Rap", genreId: "Rap")]
-        let album = Album(artistName: "Machine Gun Kelly", name: "Bloody Valentine", copyright: "© 2020 Bad Boy/Interscope Records", artworkUrl100: nil, releaseDate: "2020-05-20", genres: genres, url: nil)
+        let album = Album(artistName: "Machine Gun Kelly", name: "Bloody Valentine", copyright: "© 2020 Bad Boy/Interscope Records", artworkUrl100: nil, releaseDate: "2020-05-20", genres: genres, url: "https://www.machinegunkelly.com/")
+        let albumViewModel = AlbumViewModel(album: album, service: MockFailingNetworkService())
         
-        detailsVC.album = album
+        detailsVC.albumViewModel = albumViewModel
         detailsVC.loadViewIfNeeded()
         
         XCTAssertEqual(detailsVC.artistLabel.text, "Machine Gun Kelly")
@@ -83,6 +91,20 @@ class CodingChallenge_JustinMcAlpinTests: XCTestCase {
         XCTAssertEqual(detailsVC.copyRightLabel.text, "© 2020 Bad Boy/Interscope Records")
         XCTAssertEqual(detailsVC.releaseDateLabel.text, "Release date: 2020-05-20")
         XCTAssertEqual(detailsVC.genreLabel.text, "Genre: Rap")
+        XCTAssertEqual(detailsVC.albumViewModel?.url?.absoluteString, "https://www.machinegunkelly.com/")
+    }
+    
+    func test_ViewModel_CanShowUnknowns() {
+        let dumbAlbum = Album(artistName: nil, name: nil, copyright: nil, artworkUrl100: nil, releaseDate: nil, genres: [], url: nil)
+        let albumViewModel = AlbumViewModel(album: dumbAlbum, service: MockFailingNetworkService())
+        
+        XCTAssertEqual(albumViewModel.name , "Unknown")
+        XCTAssertEqual(albumViewModel.artist , "Unknown")
+        XCTAssertNil(albumViewModel.albumArtURL)
+        XCTAssertNil(albumViewModel.url)
+        XCTAssertEqual(albumViewModel.copyright , "Unknown")
+        XCTAssertEqual(albumViewModel.releaseDate , "Release date: Unknown")
+        XCTAssertEqual(albumViewModel.genre , "Genre: Unknown")
     }
 
 }

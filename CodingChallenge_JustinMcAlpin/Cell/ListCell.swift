@@ -7,16 +7,11 @@
 
 import UIKit
 
-protocol ListCellDelegate {
-    func gotImage(image: UIImage, index: Int)
-}
-
 class ListCell: UITableViewCell {
 
     let artView: UIImageView = UIImageView()
     let albumLabel: UILabel = UILabel()
     let artistLabel: UILabel = UILabel()
-    var delegate: ListCellDelegate?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -36,7 +31,7 @@ class ListCell: UITableViewCell {
         artView.clipsToBounds = true
         artView.translatesAutoresizingMaskIntoConstraints = false
         let artViewConstraints = [
-            artView.centerYAnchor.constraint(equalTo: centerYAnchor),
+            artView.topAnchor.constraint(equalTo: topAnchor, constant: 10),
             artView.leftAnchor.constraint(equalTo: leftAnchor, constant: 10),
             artView.heightAnchor.constraint(equalToConstant: 80),
             artView.widthAnchor.constraint(equalToConstant: 80)
@@ -47,7 +42,7 @@ class ListCell: UITableViewCell {
         albumLabel.numberOfLines = 2
         albumLabel.adjustsFontSizeToFitWidth = true
         let albumLabelConstraints = [
-            albumLabel.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -15),
+            albumLabel.topAnchor.constraint(equalTo: topAnchor, constant: 10),
             albumLabel.leftAnchor.constraint(equalTo: artView.rightAnchor, constant: 16),
             albumLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -16),
         ]
@@ -55,28 +50,12 @@ class ListCell: UITableViewCell {
         artistLabel.translatesAutoresizingMaskIntoConstraints = false
         artistLabel.numberOfLines = 3
         let artistLabelConstraints = [
-            artistLabel.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 15),
+            artistLabel.topAnchor.constraint(equalTo: albumLabel.bottomAnchor, constant: 10),
             artistLabel.leftAnchor.constraint(equalTo: artView.rightAnchor, constant: 16),
             albumLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -16),
+            artistLabel.bottomAnchor.constraint(lessThanOrEqualTo: bottomAnchor, constant: 10),
         ]
         NSLayoutConstraint.activate(artistLabelConstraints)
-    }
-    
-    func downloadImageFromURL(urlString: String) {
-        guard let url = URL(string: urlString) else {
-            self.showPlaceholderArt()
-            return
-        }
-        URLSession.shared.dataTask(with: url) { (data, response, error) in
-            DispatchQueue.main.async {
-                guard let data = data, let image = UIImage(data: data) else {
-                    self.showPlaceholderArt()
-                    return
-                }
-                self.artView.image = image
-                self.delegate?.gotImage(image: image, index: self.tag)
-            }
-        }.resume()
     }
     
     func showPlaceholderArt() {

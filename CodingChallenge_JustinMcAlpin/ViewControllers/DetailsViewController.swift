@@ -17,8 +17,7 @@ class DetailsViewController: UIViewController {
     let copyRightLabel: UILabel = UILabel()
     let releaseDateLabel: UILabel = UILabel()
     
-    var album: Album?
-    var albumArt: UIImage?
+    var albumViewModel: AlbumViewModel?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -113,19 +112,22 @@ class DetailsViewController: UIViewController {
     }
     
     func displayAlbumDetails() {
-        artView.image = albumArt
-        
-        guard let album = album else { return }
-        artistLabel.text = album.artistName
+        guard let album = albumViewModel else { return }
+        artistLabel.text = album.artist
         titleLabel.text = album.name
         copyRightLabel.text = album.copyright
-        releaseDateLabel.text = "Release date: " + (album.releaseDate ?? "Unknown")
-        genreLabel.text = "Genre: " + (album.genresString ?? "Unknown")
+        releaseDateLabel.text = album.releaseDate
+        genreLabel.text = album.genre
+        albumViewModel?.downloadImage({ (albumArt) in
+            DispatchQueue.main.async {
+                self.artView.image = albumArt
+            }
+        })
     }
     
     @objc func goToItunesPage(sender: UIButton) {
-        if let iTunesURL = album?.url, let url = URL(string: iTunesURL), UIApplication.shared.canOpenURL(url) {
-            UIApplication.shared.open(url)
+        if let iTunesURL = albumViewModel?.url, UIApplication.shared.canOpenURL(iTunesURL) {
+            UIApplication.shared.open(iTunesURL)
         }
     }
 
