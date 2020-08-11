@@ -13,4 +13,4 @@ Aforementioned itunes store button should be placed at the bottom of the screen 
 Issues:
 In its current incarnation, the application does not provide default text the labels in the ListCell object, though this is not expected to be an issue given the predictable completeness of the apple data, this could in theory cause a cell to return an empty string in any of its labels.
 
-![picture](img/HomeScreen.png)
+![picture](HomeScreen.png)
